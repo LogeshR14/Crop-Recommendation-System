@@ -1,4 +1,5 @@
 from flask import Flask,request,render_template
+import os
 import numpy as np
 import pandas
 import sklearn
@@ -10,7 +11,7 @@ sc = pickle.load(open('standscaler.pkl','rb'))
 ms = pickle.load(open('minmaxscaler.pkl','rb'))
 
 # creating flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 @app.route('/')
 def index():
@@ -40,10 +41,14 @@ def predict():
 
     if prediction[0] in crop_dict:
         crop = crop_dict[prediction[0]]
-        result = "{} is the best crop to be cultivated right there".format(crop)
+        result = f"{crop} is the best crop to be cultivated right there"
+        image_file = f"images/{crop.lower()}.png"
     else:
-        result = "Sorry, we could not determine the best crop to be cultivated with the provided data."
-    return render_template('index.html',result = result)
+        result = "Sorry, we could not determine the best crop."
+        image_file = "images/default.jpg"
+
+    return render_template('index.html', result=result, crop_image=image_file)
+
 
 
 
