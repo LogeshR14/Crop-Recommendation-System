@@ -29,7 +29,7 @@ except Exception as e:
     raise Exception(f"Error loading model or scalers: {str(e)}")
 
 # Flask app setup (matches actual folder `Static`)
-app = Flask(__name__, static_folder='Static')
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 
 # Test prediction with known data
 test_data = np.array([[90, 42, 43, 20.87974371, 82.00274423, 6.502985292, 202.9355362]])
